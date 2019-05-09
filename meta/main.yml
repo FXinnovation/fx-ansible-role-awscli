@@ -49,10 +49,10 @@ galaxy_info:
   platforms:
     - name: RedHat
       versions:
-      - 7
+        - 7
     - name: EL
       versions:
-      - 7
+        - 7
 
   galaxy_tags: []
     # List tags for your role here, one per line. A tag is a keyword that describes
