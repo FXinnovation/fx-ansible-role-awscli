@@ -1,7 +1,7 @@
 ---
 # tasks file for ansible-role-awscli
 
-- name: 'Verify that we are on running on supported distribution'
+- name: 'Verify that we are on supported distribution'
   assert:
     that: |
       (
