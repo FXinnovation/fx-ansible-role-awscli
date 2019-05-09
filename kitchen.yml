@@ -1,0 +1,86 @@
+---
+
+driver:
+  name: "ec2"
+  associate_public_ip: true
+  aws_ssh_key_id: "fxlab_jenkins"
+  interface: "public"
+  region: "us-east-1"
+  require_chef_omnibus: false
+  subnet_id: "subnet-cd28dca9"
+  iam_profile_name: "AmazonEC2ReadOnlyAccess"
+
+transport:
+  name: "ssh"
+  ssh_key: "/id_rsa.pem"
+  username: "ec2-user"
+  connection_retries: 5
+  connection_retry_sleep: 30
+  max_wait_until_ready: 300
+  # BUG Related to https://github.com/test-kitchen/test-kitchen/pull/1047
+  max_ssh_sessions: 2
+
+provisioner:
+  name: "ansible_playbook"
+  hosts: "all"
+  ansible_connection: "local"
+  ansible_verbose: false
+  ansible_verbosity: 2
+  require_pip: true
+  ansible_version: "2.7.10"
+  idempotency_test: true
+  require_chef_for_busser: false
+  require_ruby_for_busser: false
+  role_name: "ansible-role-awscli"
+  roles_path: "."
+
+platforms:
+  - name: "rhel-7"
+    driver:
+      instance_type: "t3.small"
+      tags:
+        Name: "tk-ansible-role-awscli"
+        kitchen: "true"
+        packer: "true"
+  - name: "centos-7"
+    driver:
+      image_search:
+        name: "CentOS Linux 7*"
+        owner-id: "679593333241"
+        product-code: "aw0evgkw8e5c1q413zgy5pjce"
+      instance_type: "t3.small"
+      tags:
+        Name: "tk-ansible-role-awscli"
+        kitchen: "true"
+        packer: "true"
+    transport:
+      username: "centos"
+
+verifier:
+  name: inspec
+  sudo: true
+  reporter:
+    - cli
+    - junit:%{platform}_%{suite}_inspec.xml
+
+suites:
+  - name: "rhel"
+    includes:
+      - "rhel-7"
+    provisioner:
+      name: "ansible_playbook"
+      playbook: "tests/test.yml"
+    verifier:
+      inspec_tests:
+        - name: local
+          path: test/integration/default/
+  - name: "centos"
+    includes:
+      - "centos-7"
+    provisioner:
+      name: "ansible_playbook"
+      playbook: "tests/test.yml"
+    verifier:
+      inspec_tests:
+        - name: local
+          path: test/integration/default/
