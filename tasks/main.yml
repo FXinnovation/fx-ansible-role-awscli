@@ -1,6 +1,14 @@
 ---
 # tasks file for ansible-role-awscli
 
+- name: 'Verify that we are on running on supported distribution'
+  assert:
+    that: |
+      (
+        (ansible_distribution == 'RedHat') and (ansible_distribution_major_version is version_compare('7', '=='))
+      ) or (
+        (ansible_distribution == 'CentOS') and (ansible_distribution_major_version is version_compare('7', '=='))
+      )
 
 - name: 'Install python-virtualenv'
   package:
