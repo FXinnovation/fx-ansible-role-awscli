@@ -8,34 +8,14 @@
         (ansible_distribution == 'RedHat') and (ansible_distribution_major_version is version_compare('7', '=='))
       ) or (
         (ansible_distribution == 'CentOS') and (ansible_distribution_major_version is version_compare('7', '=='))
+      ) or (
+        (ansible_distribution == "Amazon")
       )
 
-- name: 'Install python-virtualenv'
-  package:
-    name:  'python-virtualenv'
-    state: 'present'
+- name: 'Installation for RHEL/CentOS'
+  include_tasks: 'install-rhcentos.yml'
+  when: (ansible_distribution == 'RedHat') or (ansible_distribution == 'CentOS')
 
-- name: 'Create directory for venv'
-  file:
-    path:  '{{ venv_dir }}'
-    owner: 'root'
-    group: 'root'
-    mode:  0755
-    state: 'directory'
-
-- name: 'Install awscli through PIP in virtualenv'
-  pip:
-    name:       'awscli'
-    virtualenv: '{{ venv_dir }}/aws'
-
-- name: 'Copy wrapper'
-  template:
-    src:  'aws.j2'
-    dest: '/usr/local/bin/aws'
-    mode: 0555
-
-- name: 'Link to /usr/local/sbin'
-  file:
-    src:   '/usr/local/bin/aws'
-    dest:  '/usr/local/sbin/aws'
-    state: 'link'
+- name: 'Installation for Amazon Linux'
+  include_tasks: 'install-amazon.yml'
+  when: ansible_distribution == 'Amazon'
