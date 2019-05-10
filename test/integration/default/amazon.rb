@@ -16,7 +16,7 @@ control "ansible-role-awscli - #{os.name} #{os.release} - 01" do
     its('link_path') { should eq '/usr/bin/aws' }
   end
 
-  describe command('/usr/bin/aws --version') do
+  describe command('aws --version') do
     its('exit_status') { should eq 0 }
     its('stderr') { should match %r{^aws-cli/} }
   end
