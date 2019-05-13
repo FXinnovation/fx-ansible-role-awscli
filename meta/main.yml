@@ -50,6 +50,7 @@ galaxy_info:
     - name: RedHat
       versions:
         - 7
+    - name: Amazon
     - name: EL
       versions:
         - 7

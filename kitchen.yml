@@ -55,6 +55,13 @@ platforms:
         packer: "true"
     transport:
       username: "centos"
+  - name: "amazon2-2019"
+    driver:
+      instance_type: "t3.small"
+      tags:
+        Name: "tk-ansible-role-awscli"
+        kitchen: "true"
+        packer: "true"
 
 verifier:
   name: inspec
@@ -73,7 +80,7 @@ suites:
     verifier:
       inspec_tests:
         - name: local
-          path: test/integration/default/
+          path: test/integration/default/rhcentos.rb
   - name: "centos"
     includes:
       - "centos-7"
@@ -83,4 +90,14 @@ suites:
     verifier:
       inspec_tests:
         - name: local
-          path: test/integration/default/
+          path: test/integration/default/rhcentos.rb
+  - name: "amazon"
+    includes:
+      - "amazon2-2019"
+    provisioner:
+      name: "ansible_playbook"
+      playbook: "tests/test.yml"
+    verifier:
+      inspec_tests:
+        - name: local
+          path: test/integration/default/amazon.rb
