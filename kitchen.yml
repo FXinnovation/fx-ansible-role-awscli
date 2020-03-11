@@ -7,8 +7,6 @@ driver:
   interface: "public"
   region: "us-east-1"
   require_chef_omnibus: false
-  subnet_id: "subnet-cd28dca9"
-  iam_profile_name: "AmazonEC2ReadOnlyAccess"
 
 transport:
   name: "ssh"
