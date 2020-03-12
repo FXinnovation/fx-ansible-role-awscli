@@ -18,6 +18,7 @@
   pip:
     name:       'awscli'
     virtualenv: '{{ venv_dir }}/aws'
+    version:    '{{ rhcentos_awscli_version | default(omit) }}'
 
 - name: 'Copy wrapper'
   template:

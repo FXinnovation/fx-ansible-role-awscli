@@ -1,9 +1,11 @@
 #!/bin/bash
 
-source {{ venv_dir }}/aws/bin/activate
+source "{{ venv_dir }}/aws/bin/activate"
 
-aws $@
-returnValue=$(echo $?)
+aws "${@}"
+returnValue="${?}"
 
 deactivate
-exit $returnValue
+exit "${returnValue}"
+
+# vim: ft=bash
