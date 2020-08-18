@@ -3,14 +3,12 @@
 driver:
   name: "ec2"
   associate_public_ip: true
-  aws_ssh_key_id: "fxlab_jenkins"
   interface: "public"
   region: "us-east-1"
   require_chef_omnibus: false
 
 transport:
   name: "ssh"
-  ssh_key: "/id_rsa.pem"
   username: "ec2-user"
   connection_retries: 5
   connection_retry_sleep: 30
@@ -25,8 +23,9 @@ provisioner:
   ansible_verbose: false
   ansible_verbosity: 2
   require_pip: true
-  ansible_version: "2.7.10"
+  ansible_version: "2.7.18"
   idempotency_test: true
+  idempotency_skip_tags: ["kitchen_idempotency_skip_tag"]
   require_chef_for_busser: false
   require_ruby_for_busser: false
   role_name: "ansible-role-awscli"

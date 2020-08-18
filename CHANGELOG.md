@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.1.1
+
+* test: Fix kitchen
+
 ## 0.1.0
 
 * Wrapper: add quotes (fix issue with spaces in arguments)
