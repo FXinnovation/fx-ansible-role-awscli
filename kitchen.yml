@@ -23,7 +23,7 @@ provisioner:
   ansible_verbose: false
   ansible_verbosity: 2
   require_pip: true
-  ansible_version: "2.7.18"
+  ansible_version: "2.9.17"
   idempotency_test: true
   idempotency_skip_tags: ["kitchen_idempotency_skip_tag"]
   require_chef_for_busser: false
