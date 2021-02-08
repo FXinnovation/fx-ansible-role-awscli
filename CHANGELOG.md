@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.1.2
+
+* chore: bump pre-commit hooks
+
 ## 0.1.1
 
 * test: Fix kitchen
