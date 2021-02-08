@@ -22,7 +22,12 @@ provisioner:
   ansible_connection: "local"
   ansible_verbose: false
   ansible_verbosity: 2
-  require_pip: true
+  # Upgrading pip outside of the package manager is an ugly hack.
+  # It's mandatory because of pip cryptography: https://github.com/pyca/cryptography/issues/5753
+  # Another workaround would be to pip3 install cryptography==3.3.2
+  custom_pre_install_command: "sudo yum install -y python3-pip && sudo python3 -m pip install --prefix='/usr' -U pip"
+  require_pip3: true
+  ansible_binary_path: "/usr/local/bin"
   ansible_version: "2.9.17"
   idempotency_test: true
   idempotency_skip_tags: ["kitchen_idempotency_skip_tag"]
@@ -39,6 +44,12 @@ platforms:
         Name: "tk-ansible-role-awscli"
         kitchen: "true"
         packer: "true"
+      block_device_mappings:
+        - device_name: "/dev/sda1"
+          ebs:
+            volume_type: "gp2"
+            volume_size: 15
+            delete_on_termination: true
   - name: "centos-7"
     driver:
       image_search:
